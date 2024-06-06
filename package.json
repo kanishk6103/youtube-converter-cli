@@ -1,0 +1,23 @@
+{
+  "name": "youtube-converter",
+  "version": "1.0.0",
+  "description": "a cli tool which lets users download audio or video from youtube",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "youtube-converter": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kanishk6103",
+  "license": "ISC",
+  "dependencies": {
+    "boxen": "^7.1.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "figlet": "^1.7.0",
+    "inquirer": "^9.2.23",
+    "ytdl-core": "^4.11.5"
+  }
+}

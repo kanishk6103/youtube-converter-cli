@@ -1,7 +1,7 @@
 import ytdl from "ytdl-core";
 import fs from "fs";
-const download = async (url, folder, file) => {
-    const output = `${folder}/${file}.mp4`;
+const audioDownloader = async (url, folder, file) => {
+    const output = `${folder}/${file}.mp3`;
     if (fs.existsSync(output)) {
         console.log("File Already Exists");
         return output;
@@ -9,12 +9,12 @@ const download = async (url, folder, file) => {
     if (!fs.existsSync(folder)) {
         fs.mkdirSync(folder);
     }
-    const vidStream = ytdl(url, { quality: "highest" });
+    const audioStream = ytdl(url, { quality: "highestaudio" });
     const writeStream = fs.createWriteStream(output);
     return new Promise((resolve, reject) => {
-        vidStream.pipe(writeStream);
+        audioStream.pipe(writeStream);
         writeStream.on("finish", () => {
-            console.log("Downloaded the video to ", output);
+            console.log("Downloaded the audio to ", output);
             resolve(output);
         })
         writeStream.on("error", () => {
@@ -23,5 +23,4 @@ const download = async (url, folder, file) => {
         });
     })
 }
-export default download;
-// ytdl("youtubeLink").pipe(fs.createWriteStream("video.mp4"));
+export default audioDownloader;

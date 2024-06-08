@@ -13,6 +13,7 @@
   "author": "kanishk6103",
   "license": "ISC",
   "dependencies": {
+    "asciify-image": "^0.1.10",
     "boxen": "^7.1.1",
     "chalk": "^5.3.0",
     "commander": "^12.1.0",

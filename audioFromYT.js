@@ -1,5 +1,12 @@
 import ytdl from "ytdl-core";
 import fs from "fs";
+
+export const getVideoTitle = (videoURL) => {
+    return new Promise((resolve, reject) => {
+        ytdl.getBasicInfo(videoURL).then(info => resolve(info.videoDetails.title)).catch(err => reject(err));
+    });
+}
+
 const audioDownloader = async (url, folder, file) => {
     const output = `${folder}/${file}.mp3`;
     if (fs.existsSync(output)) {

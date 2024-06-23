@@ -2,11 +2,12 @@
 import { program } from "commander";
 import download from "./video-downloader.js";
 import convertAudio from "./audio-downloader.js";
-import audioDownloader, { getVideoTitle } from "./audioFromYT.js";
+import getVideoTitle from "./utils/getVideoTitle.js"
+import audioDownloader from "./audioFromYT.js";
 import chalk from "chalk";
 import figlet from "figlet";
 import asciify from "asciify-image";
-
+import avDownloader from "./av-downloader.js";
 // let options = {
 //     fit: "box",
 //     width: 200,
@@ -60,6 +61,7 @@ program.command("download-audio <url>")
             console.error(err);
         }
     })
+
 program.command("convert <path>")
     .description("Enables users to convert videos to audio from youtube")
     .option("-f, --folderName <folder>", "output folder name", "audioFolder")
@@ -74,4 +76,24 @@ program.command("convert <path>")
             console.error(err);
         }
     })
+
+program.command("download-av <url>")
+    .description("Enables users to download both audio and video from youtube")
+    .option("-f, --folderName <folder>", "output folder name", "E:/D Drive/music stuff")
+    .option("-n, --name <file>", "output file name")
+    .action(async (url, options) => {
+        const { folderName: folder, name: file } = options;
+        try {
+            const title = await getVideoTitle(url);
+            const cleaner = title.replace(/[^a-zA-Z0-9]/g, '_');
+            const fileName = file || cleaner;
+            const output = await avDownloader(url, folder, fileName);
+            console.log(`Download completed: ${output}`);
+        }
+        catch (err) {
+            console.error(err);
+        }
+    })
+
+
 program.parse(process.argv);

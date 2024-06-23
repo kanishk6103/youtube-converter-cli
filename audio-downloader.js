@@ -2,7 +2,6 @@ import fs from "fs";
 import ffmpegPath from "ffmpeg-static";
 import ffmpeg from "fluent-ffmpeg";
 import chalk from "chalk";
-
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 const convertAudio = async (audioPath, folderName, fileName) => {

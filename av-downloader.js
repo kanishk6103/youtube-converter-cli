@@ -5,7 +5,7 @@ import cp from "child_process";
 import stream from "stream";
 
 const avDownloader = async (url, folder, file, options = {}) => {
-    const output = `${folder}/${file}.mkv`; // Changed to mkv for combined audio and video
+    const output = `${folder}/${file}.mp4`;
     if (fs.existsSync(output)) {
         console.log("File Already Exists");
         return output;
@@ -21,11 +21,11 @@ const avDownloader = async (url, folder, file, options = {}) => {
         const videoStream = ytdl.downloadFromInfo(info, { ...options, quality: 'highestvideo' });
 
         const ffmpegProcess = cp.spawn(ffmpegPath, [
-            '-loglevel', '8', '-hide_banner', // supress non-crucial messages
+            '-loglevel', '8', '-hide_banner',
             '-i', 'pipe:3', '-i', 'pipe:4',  // input audio and video by pipe
             '-map', '0:a', '-map', '1:v',  // map audio and video correspondingly
             '-c', 'copy', // no need to change the codec
-            output  // output file
+            output
         ], {
             windowsHide: true,  // no popup window for Windows users
             stdio: [
@@ -37,21 +37,20 @@ const avDownloader = async (url, folder, file, options = {}) => {
         audioStream.pipe(ffmpegProcess.stdio[3]);
         videoStream.pipe(ffmpegProcess.stdio[4]);
 
-        // Handle ffmpeg process events
         ffmpegProcess.on('close', () => {
             console.log('ffmpeg process finished');
-            result.end(); // Mark PassThrough stream as finished
+            result.end();
         });
 
         ffmpegProcess.on('error', (err) => {
             console.error('ffmpeg process error:', err);
-            result.destroy(err); // Destroy PassThrough stream on error
+            result.destroy(err);
         });
 
         return new Promise((resolve, reject) => {
             ffmpegProcess.on('close', (code) => {
                 if (code === 0) {
-                    resolve(output); // Resolve with output file path
+                    resolve(output);
                 } else {
                     reject(new Error(`ffmpeg process exited with code ${code}`));
                 }

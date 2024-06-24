@@ -7,6 +7,7 @@
 
 
 ### Instructions:
+  - To get this CLI tool, in your terminal type ```npm install -g youtube-converter```. This installs youtube-converter gloabally. 
   - You can download youtube videos and audio through this cli tool
   - To download without much hassle just type in: ``` youtube-converter interactive ``` and you will get 3 options:
      - [Download only Audio](README.md#download-only-audio)

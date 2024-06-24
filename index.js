@@ -29,7 +29,7 @@ program.command("interactive")
                 type: "list",
                 name: "action",
                 message: "Choose what do you want to download?",
-                choices: ["Only Video", "Only Audio", "Both Audio and Video", "Manual Download"]
+                choices: ["Only Video", "Only Audio", "Video with Audio", "Manual Download"]
             },
         ]).then((res) => {
             if (res.action === "Only Video") {
@@ -41,8 +41,11 @@ program.command("interactive")
                     }
                 ]).then(async (ans) => {
                     try {
-                        const loader = ora("Downloading Video at: video/videoFile").start();
-                        const output = await download(ans.url, "video", "videoFile");
+                        const title = await getVideoTitle(ans.url);
+                        const cleaner = title.replace(/[^a-zA-Z0-9]/g, '_');
+                        const fileName = cleaner;
+                        const loader = ora("Downloading Video at: video/" + fileName).start();
+                        const output = await download(ans.url, "video", fileName);
                         loader.succeed(console.log(chalk.green(`Download completed: ${output}`)));
                     }
                     catch (err) {
@@ -72,7 +75,7 @@ program.command("interactive")
                     }
                 })
             }
-            else if (res.action === "Both Audio and Video") {
+            else if (res.action === "Video with Audio") {
                 inquirer.prompt([
                     {
                         type: "input",
@@ -111,11 +114,14 @@ program.command("interactive")
 program.command("download <url>")
     .description("Enables users to download videos from youtube")
     .option("-f, --folderName <folder>", "output folder name", "videos")
-    .option("-n, --name <file>", "output file name", "video")
+    .option("-n, --name <file>", "output file name")
     .action(async (url, options) => {
         const { folderName: folder, name: file } = options;
         try {
-            const loader = ora(`Downloading Video at: ${folder}/${file}`).start();
+            const title = await getVideoTitle(url);
+            const cleaner = title.replace(/[^a-zA-Z0-9]/g, '_');
+            const fileName = file || cleaner;
+            const loader = ora(`Downloading Video at: ${folder}/${fileName}`).start();
             const output = await download(url, folder, file);
             loader.succeed(console.log(chalk.green(`Download completed: ${output}`)));
         }
@@ -160,7 +166,7 @@ program.command("convert <path>")
 
 program.command("download-av <url>")
     .description("Enables users to download both audio and video from youtube")
-    .option("-f, --folderName <folder>", "output folder name", "videos")
+    .option("-f, --folderName <folder>", "output folder name", "videosAV")
     .option("-n, --name <file>", "output file name")
     .action(async (url, options) => {
         const { folderName: folder, name: file } = options;

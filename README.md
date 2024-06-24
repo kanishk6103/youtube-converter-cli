@@ -3,6 +3,9 @@
 
 <br>
 
+![youtube-converter-interactive-menu](https://github.com/kanishk6103/youtube-converter-cli/assets/72643990/f9f79a4a-b62a-4a6a-b25d-e49a6661a7aa)
+
+
 ### Instructions:
   - You can download youtube videos and audio through this cli tool
   - To download without much hassle just type in: ``` youtube-converter interactive ``` and you will get 3 options:

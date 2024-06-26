@@ -13,7 +13,7 @@
   "author": "kanishk6103",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kanishk6103/youtube-converter-cli"
+    "url": "https://github.com/kanishk6103/youtube-converter-cli.git"
   },
   "license": "ISC",
   "dependencies": {

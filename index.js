@@ -140,7 +140,7 @@ program.command("download-audio <url>")
             const title = await getVideoTitle(url);
             const cleaner = title.replace(/[^a-zA-Z0-9]/g, '_');
             const fileName = file || cleaner;
-            const loader = ora(`Downloading Video at: ${folder}/${fileName}`).start();
+            const loader = ora(`Downloading Audio at: ${folder}/${fileName}`).start();
             const output = await audioDownloader(url, folder, fileName);
             loader.succeed(console.log(chalk.green(`Download completed: ${output}`)));
         }
@@ -165,7 +165,7 @@ program.command("convert <path>")
     })
 
 program.command("download-av <url>")
-    .description("Enables users to download both audio and video from youtube")
+    .description("Enables users to download video with audio from youtube")
     .option("-f, --folderName <folder>", "output folder name", "videosAV")
     .option("-n, --name <file>", "output file name")
     .action(async (url, options) => {
